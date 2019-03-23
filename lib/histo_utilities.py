@@ -287,3 +287,91 @@ def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bou
     c_out.leg = leg
 
     return c_out
+
+
+
+def binningY(histo2D,min_event):#returns an appropriate binning in y direction with at least min_event points in each binning
+    bins = []
+    i=0
+    nbinsy =  histo2D.GetNbinsY()
+    while i < nbinsy:
+        counter = 0
+        while counter < min_event:
+            h1 = histo2D.ProjectionX("h"+str(i),i+1,i+1)
+            counter += h1.Integral()
+            i+=1
+            if i >nbinsy:
+                break
+        bins.append(i)
+
+    bins = bins[:len(bins)-2]+[bins[len(bins)-1]]
+    return bins
+def histo2D_projectionFit(histo2D, bins, gaus_thr): #given the binning, plot the scale and resolution of the projection of 2D map
+    proj = []
+    bw = histo2D.GetYaxis().GetBinWidth(1)
+    left_edge = histo2D.GetYaxis().GetBinLowEdge(1)
+
+    x_bins = [(x-1)*bw+left_edge for x in bins]
+    res = rt.TH1F('trd','res', len(bins)-1,array( 'f', x_bins))
+    res_eff = rt.TH1F('trd','res_eff', len(bins)-1,array( 'f', x_bins))
+    scale = rt.TH1F('scale','scale',len(bins)-1,array( 'f', x_bins))
+    for i in range(len(bins)-1):
+        key = 'bin'+str(i)
+        proj.append(histo2D.ProjectionX("h"+str(i),bins[i],bins[i+1]-1))
+        y_low = histo2D.GetYaxis().GetBinLowEdge(bins[i])
+        y_up = histo2D.GetYaxis().GetBinLowEdge(bins[i+1]-1)+histo2D.GetYaxis().GetBinWidth(1)
+
+    for i in range(len(proj)):
+        h1 = proj[i]
+        hnew = h1.Clone("hnew")
+        hnew = hnew.Rebin(2)
+        SS = rt.TSpectrum()
+        n_pks = SS.Search(hnew, 0.1, "", 0.5)
+        x_pos = SS.GetPositionX()
+        y_pos = SS.GetPositionY()
+        pks = []
+        if n_pks == 0:
+            hnew.SetLineColor(4)
+    #         hnew.Rebin(2)
+            hnew.GetXaxis().SetRangeUser(-5,5)
+            hnew.DrawCopy()
+            print("npks",i,hnew.Integral(),n_pks)
+            break
+        n_pk = hnew.FindBin(x_pos[0])
+        thr = gaus_thr* hnew.GetBinContent(n_pk)
+        n_low = n_pk
+        while hnew.GetBinContent(n_low) > thr:
+            n_low -= 1
+        x_low = hnew.GetBinCenter(n_low)    
+        n_up = n_pk
+        while hnew.GetBinContent(n_up) > thr:
+            n_up += 1
+        x_up = hnew.GetBinCenter(n_up)
+        r = hnew.Fit('gaus', 'LRSQ+', '', x_low, x_up)
+        r = r.Get()
+        scale.SetBinContent(i+1,r.Parameter(1))
+        scale.SetBinError(i+1,r.ParError(1))
+        if abs(r.Parameter(1)-hnew.GetMean())>1:
+            print("scale fit warning", i,r.Parameter(1),hnew.GetMean())
+
+        n_pk = h1.FindBin(r.Parameter(1))
+        thr = 0.68 * h1.Integral()
+        counter = h1.GetBinContent(n_pk)*1.0
+        n_low = n_pk
+        n_up = n_pk
+        flag = True
+        while counter < thr:
+            if flag:
+                n_low -= 1
+                counter += h1.GetBinContent(n_low)
+            else:
+                n_up += 1
+                counter += h1.GetBinContent(n_up)
+            flag = not flag
+        sigma_eff = (n_up - n_low) *h1.GetBinWidth(1)
+    #         sigma_eff = h1.GetStdDev()
+        res.SetBinContent(i+1,sigma_eff)
+        res.SetBinError(i+1,h1.GetBinWidth(1))
+    res_eff.SetBinContent(i+1,r.Parameter(2))
+    res_eff.SetBinError(i+1,r.ParError(2))
+    return scale, res, res_eff
