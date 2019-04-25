@@ -29,7 +29,7 @@ def quantile(a, p, weight=None, f=None):
         f_q = h.GetBinContent(h.FindBin(q))/h.GetBinWidth(h.FindBin(q))
     if f_q == 0:
         f_q = 1e-3
-        print '[ERROR]: Failed to estimate pdf'
+        print ('[ERROR]: Failed to estimate pdf')
     sigma_q = np.sqrt(p*(1-p)/(a.shape[0]*f_q**2))
     return q, sigma_q
 
@@ -37,9 +37,9 @@ def EstimateDispersion(aux, w=None):
     q_up, e_up = quantile(aux, 0.15, weight=w)
     q_dwn, e_dwn = quantile(aux, 0.85, weight=w)
     if q_up == None or q_dwn == None:
-        print '[WARNING] Quantile estimation failed'
-        print aux.shape
-        print q_up, q_dwn
+        print ('[WARNING] Quantile estimation failed')
+        print (aux.shape)
+        print (q_up, q_dwn)
     disp_est = 0.5*np.abs(q_up - q_dwn)
     disp_unc = 0.5*np.hypot(e_up, e_dwn)
     return disp_est, disp_unc
@@ -71,6 +71,11 @@ def create_TH1D(x, name='h', title=None, binning=[None, None, None], weights=Non
         h = h2clone.Clone(name)
         h.SetTitle(title)
         h.Reset()
+    #for i in range(len(x)):
+    #    if weights is None:
+#	    h.Fill(x[i])
+#	else:
+ #           h.Fill(x[i],weights[i])
 
     rtnp.fill_hist(h, x, weights=weights)
     h.SetXTitle(axis_title[0])
@@ -115,9 +120,9 @@ def create_prof1D(x, y, name='h', title=None, binning=[None, None, None], h2clon
                 q_up, e_up = quantile(aux, 0.15)
                 q_dwn, e_dwn = quantile(aux, 0.85)
                 if q_up == None or q_dwn == None:
-                    print '[WARNING] Quantile estimation failed'
-                    print aux.shape
-                    print q_up, q_dwn
+                    print ('[WARNING] Quantile estimation failed')
+                    print (aux.shape)
+                    print (q_up, q_dwn)
                     return
                 disp_est = 0.5*np.abs(q_up - q_dwn)
                 h.SetBinContent(i, disp_est)
@@ -130,9 +135,9 @@ def create_prof1D(x, y, name='h', title=None, binning=[None, None, None], h2clon
                     q_up, e_up = quantile(aux, 0.15)
                     q_dwn, e_dwn = quantile(aux, 0.85)
                     if q_up == None or q_dwn == None:
-                        print '[WARNING] Quantile estimation failed'
-                        print aux.shape
-                        print q_up, q_dwn
+                        print ('[WARNING] Quantile estimation failed')
+                        print (aux.shape)
+                        print (q_up, q_dwn)
                         return
                     disp_est = 0.5*np.abs(q_up - q_dwn)
                     h.SetBinError(i, disp_est)
@@ -178,6 +183,11 @@ def create_TH2D(sample, name='h', title=None, binning=[None, None, None, None, N
             binning[3] = int((binning[5] - binning[4])/bin_w)
 
     h = rt.TH2D(name, title, binning[0], binning[1], binning[2], binning[3], binning[4], binning[5])
+    #for i in range(len(sample)):
+#	if weights is None:
+#	    h.Fill(sample[i,0],sample[i,1])
+#	else:
+#	    h.Fill(sample[i,0],sample[i,1],weights[i])
     rtnp.fill_hist(h, sample, weights=weights)
     h.SetXTitle(axis_title[0])
     h.SetYTitle(axis_title[1])
