@@ -4,7 +4,7 @@ import root_numpy as rtnp
 import matplotlib.pyplot as plt
 from array import array
 
-std_color_list = [1, 2, 4, 8, 6, 28, 43, 7, 25]
+std_color_list = [1, 2, 4, 8, 6, 28, 43, 7, 25, 36]
 
 def quantile(a, p, weight=None, f=None):
     if a.shape[0] == 0:
