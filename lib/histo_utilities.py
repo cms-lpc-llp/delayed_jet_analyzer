@@ -406,3 +406,13 @@ def histo2D_projectionFit(histo2D, bins, gaus_thr, rebin, direc): #given the bin
     res_eff.SetBinContent(i+1,r.Parameter(2))
     res_eff.SetBinError(i+1,r.ParError(2))
     return scale, scale_eff, res, res_eff
+def create_TGraph(x,y, axis_title = ['','']):
+    x = array("d", x)
+    y = array("d", y)
+    if not len(x) == len(y):
+        print("length of x and y are not equal!")
+    gr = rt.TGraph(len(x),x,y)
+    if len(axis_title) == 2:
+    	gr.GetXaxis().SetTitle(axis_title[0])
+    	gr.GetYaxis().SetTitle(axis_title[1])
+    return gr
