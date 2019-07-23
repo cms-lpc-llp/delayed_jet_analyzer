@@ -77,7 +77,7 @@ The notebook is currently setup for 4 signal samples and 2 background samples as
 
 |  |  | ct | fpath Key | Array Name |
 |--------------|----------------------------|------|---------------|-----------------|
-| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 1 m | ggH | T |
+| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 1 m | m50ct1m | T |
 | Signal (ggH) | mX = 50 GeV mH = 125 GeV | 10 m | m50ct10000mm | T\_low\_ctau10 |
 | Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 1 m | m975ct1000mm | T\_high\_ctau1 |
 | Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 10 m | m975ct10000mm | T\_high\_ctau10 |
