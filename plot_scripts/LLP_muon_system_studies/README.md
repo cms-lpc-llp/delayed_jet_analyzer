@@ -74,7 +74,7 @@ fpath['qcd'] = data_path +'jet_timing_studies_ntuple_RunIIFall17DRPremix_QCD_Pt_
 ```
 The notebook is currently setup for 4 signal samples and 2 background samples as described in the table below:
 
-|  |  | ct | fpath Key | Array Name |
+|  |  | c&tau; | fpath Key | Array Name |
 |--------------|----------------------------|------|---------------|-----------------|
 | Signal (ggH) | mX = 50 GeV mH = 125 GeV | 1 m | m50ct1m | T |
 | Signal (ggH) | mX = 50 GeV mH = 125 GeV | 10 m | m50ct10000mm | T\_low\_ctau10 |
