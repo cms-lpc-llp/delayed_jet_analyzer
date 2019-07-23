@@ -2,7 +2,6 @@
 
 The main notebook for development purposes is muon_roi_trigger_data_nocluster.ipynb. The following instructions will thus be focused on how to run the aforementioned notebook. The other notebooks, which will be transferred to this folder soon, have specific target purposes as defined below.
 * muon_roi_trigger_data.ipynb: Implements k-means clustering to identify clusters of CSC hits (Under development)
-* muon_roi_trigger_barrel_nocluster.ipynb: Applies the analysis structure of the endcaps to the barrel and overlap regions without any k-means clustering (To be merged with muon_roi_trigger_data_nocluster.ipynb)
 
 ## Getting Started
 
