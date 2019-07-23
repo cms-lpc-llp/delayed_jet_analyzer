@@ -10,7 +10,7 @@ The main notebook for development purposes is muon_roi_trigger_data_nocluster.ip
 
 #### ntuples
 
-To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias) ntuples are required. These ntuples are generated from the CMS data processing workflow. 
+To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias) ntuples are required. These ntuples are generated from the CMS data processing workflow. ![CMS Data Processing Workflow](cms_workflow(1).png?raw=true)
 
 1. At the top are samples produced by Madgraph at the Les Houches Event (LHE) stage, which contain only matrix calculations for the model you specify. 
 
