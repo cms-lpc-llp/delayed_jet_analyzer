@@ -58,7 +58,7 @@ git clone https://github.com/cms-lpc-llp/delayed_jet_analyzer.git
 ### Step 3
 Include the preferred pwd where the delayed_jet_analyzer repository is copied in the notebook
 ```python
-work_location = input("Username? ")
+work_location = input("Username: ")
 if work_location == 'nasurijr':
     pwd = '/nfshome/nasurijr/delayed_jet_analyzer/'
 elif work_location == '<Insert identification here>':
