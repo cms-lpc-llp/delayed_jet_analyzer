@@ -74,14 +74,14 @@ fpath['qcd'] = data_path +'jet_timing_studies_ntuple_RunIIFall17DRPremix_QCD_Pt_
 ```
 The notebook is currently setup for 4 signal samples and 2 background samples as described in the table below:
 
-|  |  | c&tau; | fpath Key | Array Name |
-|--------------|----------------------------|------|---------------|-----------------|
-| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 1 m | m50ct1m | T |
-| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 10 m | m50ct10000mm | T\_low\_ctau10 |
-| Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 1 m | m975ct1000mm | T\_high\_ctau1 |
-| Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 10 m | m975ct10000mm | T\_high\_ctau10 |
-| Background | QCD |  | qcd | T_bkg |
-| Background | ZeroBias |  | zeroBias | T_minBias |
+|  |  | c&tau; | fpath Key | TTree Name | TTree Key |
+|--------------|----------------------------|--------|---------------|-----------------|-----------|
+| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 1 m | m50ct1m | T | m50ct1m |
+| Signal (ggH) | mX = 50 GeV mH = 125 GeV | 10 m | m50ct10000mm | T\_low\_ctau10 | m50ct10m |
+| Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 1 m | m975ct1000mm | T\_high\_ctau1 | m975ct1m |
+| Signal (ggH) | mX = 975 GeV mH = 2000 GeV | 10 m | m975ct10000mm | T\_high\_ctau10 | m975ct10m |
+| Background | QCD |  | qcd | T_bkg | qcd |
+| Background | ZeroBias |  | zeroBias | T_minBias | zeroBias |
 
 ### Step 5
 Run the notebook. If there are any errors, check the surrounding comments or ask @nsurijr
