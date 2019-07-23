@@ -11,7 +11,7 @@ The main notebook for development purposes is muon_roi_trigger_data_nocluster.ip
 
 To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias) ntuples are required. These ntuples are generated from the CMS data processing workflow. 
 
-##### General CMS Data Processing Workflow
+##### *General CMS Data Processing Workflow*
 ![CMS Data Processing Workflow](cms_workflow(1).png?raw=true)
 
 1. At the top are samples produced by Madgraph at the Les Houches Event (LHE) stage, which contain only matrix calculations for the model you specify. 
@@ -22,7 +22,7 @@ To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias
 
 4. Finally, an ntupler is used to further reduce the size of the samples and select variables for analysis.
 
-##### Accessing/Generating ntuples
+##### *Accessing/Generating ntuples*
 For this analysis, nearly all of the AODs required have been processed and placed in the Caltech Tier 2. Instructions on using the ntupler and the locations of the key AODs can be found here: [jet_timing_studies ntupler](https://github.com/cms-lpc-llp/jet_timing_studies)
 
 Currently, the notebook is configured for the signal model ggH -> G<sub>0+</sub> + G<sub>0-</sub> -> MET + bb (for more information on the theory of the model, check out [Naturalness in the Dark at the LHC](https://arxiv.org/pdf/1501.05310.pdf)). ![Feynman Diagram of LLP process](http://inspirehep.net/record/1340705/files/glueball_production.png)
