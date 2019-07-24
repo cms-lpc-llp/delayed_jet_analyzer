@@ -7,9 +7,9 @@ The main notebook for development purposes is muon_roi_trigger_data_nocluster.ip
 
 ### Prerequisites
 
-#### ntuples
+#### ntuple
 
-To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias) ntuples are required. These ntuples are generated from the CMS data processing workflow. 
+To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias) ntuples are required. These ntuples are generated from the CMS data processing workflow. Details of AOD production can be found here [h-to-ss1ss2-madgraph](https://github.com/cms-lpc-llp/h-to-ss1ss2-madgraph)
 
 ##### *General CMS Data Processing Workflow*
 ![CMS Data Processing Workflow](cms_workflow(1).png?raw=true)
@@ -24,8 +24,6 @@ To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias
 
 ##### *Accessing/Generating ntuples*
 For this analysis, nearly all of the AODs required have been processed and placed in the Caltech Tier 2. Instructions on using the ntupler and the locations of the key AODs can be found here: [jet_timing_studies ntupler](https://github.com/cms-lpc-llp/jet_timing_studies)
-
-*Note: Any additions of variables for the ntuples must be done in the python/jetNtupler_MC_AOD.py file*
 
 Currently, the notebook is configured for the signal model ggH -> G<sub>0+</sub> + G<sub>0-</sub> -> MET + bb (for more information on the theory of the model, check out [Naturalness in the Dark at the LHC](https://arxiv.org/pdf/1501.05310.pdf)). ![Feynman Diagram of LLP process](http://inspirehep.net/record/1340705/files/glueball_production.png)
 *Note: This will be expanded to include wH production as well as bbbb final states.*
@@ -56,13 +54,13 @@ Verify that you have write access to T2 user space by performing the following f
 Install python2.7, numpy, ROOT, root_numpy, jupyter-notebook (in this order). Make sure to install the packages compatible with python2.7. Note that Tier2 already has the necessary tools for running this notebook.
 
 ### Step 2
-Setup up the repository in your preferred pwd
+Setup up the repository in your preferred dir
 ```bash
-git clone https://github.com/cms-lpc-llp/delayed_jet_analyzer.git
+git clone https://github.com/cms-lpc-llp/delayed_jet_analyzer.git cms_lpc_llp/delayed_jet_analyzer
 ```
 
 ### Step 3
-Include the preferred pwd where the delayed_jet_analyzer repository is copied in the notebook
+Include the preferred dir where the delayed_jet_analyzer repository is copied in the notebook
 ```python
 work_location = input("Username: ")
 if work_location == 'nasurijr':
