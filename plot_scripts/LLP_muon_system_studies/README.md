@@ -24,7 +24,8 @@ To run the notebook, processed MC/data (signal, background, and minBias/ZeroBias
 
 ##### *Accessing/Generating ntuples*
 For this analysis, nearly all of the AODs required have been processed and placed in the Caltech Tier 2. Instructions on using the ntupler and the locations of the key AODs can be found here: [jet_timing_studies ntupler](https://github.com/cms-lpc-llp/jet_timing_studies)
-*Note: Any additions of variables for the ntuples*
+
+*Note: Any additions of variables for the ntuples must be done in the python/jetNtupler_MC_AOD.py file*
 
 Currently, the notebook is configured for the signal model ggH -> G<sub>0+</sub> + G<sub>0-</sub> -> MET + bb (for more information on the theory of the model, check out [Naturalness in the Dark at the LHC](https://arxiv.org/pdf/1501.05310.pdf)). ![Feynman Diagram of LLP process](http://inspirehep.net/record/1340705/files/glueball_production.png)
 *Note: This will be expanded to include wH production as well as bbbb final states.*
