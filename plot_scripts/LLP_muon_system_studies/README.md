@@ -47,11 +47,15 @@ Verify that you have write access to T2 user space by performing the following f
 [username@lxplus ~]$ crab checkwrite --site T2_US_Caltech
 ```
 *Note: Please use ssh instead of gsissh to access the Tier2 server*
+*Further information on the T2 user space can be found [here](https://caltech.teamwork.com/#notebooks/119930)*
+
+Verify that a corresponding GPU account has been created for you on Flere by following the instructions [here](https://github.com/cmscaltech/gpuservers).
+*Note: This step will most likely be adjusted in the near future.*
 
 ## Setting up the Notebook
 
 ### Step 1
-Install python2.7, numpy, ROOT, root_numpy, jupyter-notebook (in this order). Make sure to install the packages compatible with python2.7. Note that Tier2 already has the necessary tools for running this notebook.
+Install python2.7, numpy, ROOT, root_numpy, jupyter-notebook (in this order). Make sure to install the packages compatible with python2.7. Note that the Flere GPU server already has the necessary tools for running this notebook.
 
 ### Step 2
 Setup up the repository in your preferred dir
