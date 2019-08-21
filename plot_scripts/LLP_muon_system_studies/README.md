@@ -1,7 +1,7 @@
 # Instructions for Running Muon System LLP Analyzer Notebook(s)
 
-The main notebook for development purposes is muon_roi_trigger_data_nocluster.ipynb. The following instructions will thus be focused on how to run the aforementioned notebook. The other notebooks, which will be transferred to this folder soon, have specific target purposes as defined below.
-* muon_roi_trigger_data.ipynb: Implements k-means clustering to identify clusters of CSC hits (Under development)
+The main notebook for development purposes is muon_roi_trigger_data_nocluster.ipynb, which serves as the central file for work on the CMS Run 3 Level 1 Muon RoI Trigger. The following instructions will thus be focused on how to run the aforementioned notebook. The other notebooks, which will be transferred to this folder soon, have specific target purposes as defined below.
+* muon_roi_trigger_data_wh_test: Serves as the central for work on AN-19-143
 
 ## Getting Started
 
