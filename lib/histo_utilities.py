@@ -215,7 +215,7 @@ def rootTH2_to_np(h, cut = None, Norm = False):
             pos[iy, ix] = [x,y]
     return arr, pos
 
-def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bounds = [0.1, 4], draw_opt = 'E1'):
+def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = None, ratio_bounds = [0.1, 4], logy = False,draw_opt = 'E1'):
     h_list = []
     if in_tags == None:
         tag = []
@@ -226,16 +226,21 @@ def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bou
         if in_tags == None:
             tag.append(h.GetTitle())
 
-    c_out = rt.TCanvas("c_out_ratio"+label, "c_out_ratio"+label, 600, 800)
+    c_out = rt.TCanvas("c_out_ratio"+label, "c_out_ratio"+label, 800, 800)
     pad1 = rt.TPad("pad1", "pad1", 0, 0.3, 1, 1.0)
     pad1.SetBottomMargin(0.03)
     pad1.SetLeftMargin(0.15)
     # pad1.SetGridx()
+    if logy:
+        pad1.SetLogy()
+        
     pad1.Draw()
     pad1.cd()
 
+    #leg = rt.TLegend(0.2, 0.7, 0.5, 0.9)
     leg = rt.TLegend(0.6, 0.7, 0.9, 0.9)
     leg.SetBorderSize(0)
+    #leg.SetTextSize(0.022)
     leg.SetFillStyle(0)
     c_out.cd(1)
 
@@ -244,10 +249,13 @@ def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bou
             h.GetXaxis().SetLabelSize(0)
             h.GetXaxis().SetTitle("")
             h.GetYaxis().SetRangeUser(0, 1.05*max(map(lambda x: x.GetMaximum(), h_list)))
-            h.GetYaxis().SetTitleOffset(1.5)
-            h.GetYaxis().SetTitleSize(0.05)
+            if logy:
+                h.GetYaxis().SetRangeUser(0.1, 3*max(map(lambda x: x.GetMaximum(), h_list)))
+            h.GetYaxis().SetTitleOffset(1.0)
+            h.GetYaxis().SetTitleSize(0.06)
             h.GetYaxis().SetLabelSize(0.05)
             h.SetTitle(title)
+            #h.SetStats(1)
             h.DrawCopy(draw_opt)
         else:
             h.DrawCopy(draw_opt+"same")
@@ -268,7 +276,8 @@ def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bou
     for i, h in enumerate(h_list):
         if i == 0:
             continue
-        elif i == 1:
+        elif i == 1: 
+            if fit:h.GetFunction("expo").Delete()
             h.Divide(h_list[0])
             h.GetYaxis().SetTitleOffset(0.6)
             h.GetYaxis().SetRangeUser(ratio_bounds[0], ratio_bounds[1])
@@ -281,6 +290,7 @@ def make_ratio_plot(h_list_in, title = "", label = "", in_tags = None, ratio_bou
             h.GetXaxis().SetTickSize(0.07)
             h.SetYTitle('Ratio with {}'.format(tag[0]))
             h.SetTitle("")
+    #        h.SetStats(0)
             h.DrawCopy(draw_opt)
 
         else:
