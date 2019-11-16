@@ -39,21 +39,21 @@ jet_time = mytree["CaloJetTime_t"]
 
 
 #print jet_time
-pass_evts = 0
-pass_evts_l = []
-pass_evts_nj_l = []
-eff_bkg_l = []
-eff_bkg_2j_l = []
+pass_evts       = 0
+pass_evts_2j    = 0
+pass_evts_l     = []
+pass_evts_2j_l  = []
+rate_bkg_l      = []
+rate_bkg_2j_l   = []
 pt_thr_off_list = [20.,25.,30.,35.,40.,45.,50.,55.,60.,65.,70.,75.,80.,85.,90.,95.,100.]
-pass_evts_nj = 0
-time_thr = -999.
+time_thr        = 1.50
 #pt_thr_off   = 40.
 
 for pt_thr_off_i in pt_thr_off_list:
     print "=========", pt_thr_off_i
     pass_evts = 0
-    pass_evts_nj = 0
-    for pt,eta,time in zip(jet_pt,jet_eta,jet_time):
+    pass_evts_2j = 0
+    for pt,eta,time in zip(jet_pt,jet_eta,jet_time):##make event loop
         #sel = np.logical_and(np.absolute(eta) < 1.44, pt > pt_thr)
         sel = np.absolute(eta) < 1.44
         s_pt   = pt[sel]
@@ -72,17 +72,17 @@ for pt_thr_off_i in pt_thr_off_list:
                 _pass = True
                 _ctr += 1
 
-                if _pass:
-                    pass_evts += 1.
+        if _pass:
+            pass_evts += 1.0
 
-                if _ctr >= 2:
-                    pass_evts_nj += 1.0
+        if _ctr >= 2:
+            pass_evts_2j += 1.0
 
     #print pass_evts/entries, pass_evts_nj/entries
     pass_evts_l.append(pass_evts/entries)
-    eff_bkg_l.append(totalrate*pass_evts/entries)
-    pass_evts_nj_l.append(pass_evts_nj/entries)
-    eff_bkg_2j_l.append(totalrate*pass_evts_nj/entries)
+    rate_bkg_l.append(totalrate*pass_evts/entries)
+    pass_evts_2j_l.append(pass_evts_2j/entries)
+    rate_bkg_2j_l.append(totalrate*pass_evts_2j/entries)
 
 ###########################
 #########SIGNAL############
@@ -111,17 +111,17 @@ jet_time_signal = mytree_signal["CaloJetTime_t"]
 #print jet_time
 pass_evts_signal = 0
 pass_evts_l_signal = []
-pass_evts_nj_l_signal = []
+pass_evts_2j_l_signal = []
 #pt_thr_off_list = [20.,25.,30.,35.,40.,45.,50.,55.,60.,65.,70.,75.,80.,85.,90.,95.,100.]
-pass_evts_nj_signal = 0
+pass_evts_2j_signal = 0
 #time_thr = 1.0
 #pt_thr_off   = 40.
 
 for pt_thr_off_i in pt_thr_off_list:
     print "=========", pt_thr_off_i
     pass_evts_signal = 0
-    pass_evts_nj_signal = 0
-    for pt,eta,time in zip(jet_pt_signal,jet_eta_signal,jet_time_signal):
+    pass_evts_2j_signal = 0
+    for pt,eta,time in zip(jet_pt_signal,jet_eta_signal,jet_time_signal):#loop over events
         #sel = np.logical_and(np.absolute(eta) < 1.44, pt > pt_thr)
         sel = np.absolute(eta) < 1.44
         s_pt   = pt[sel]
@@ -140,15 +140,15 @@ for pt_thr_off_i in pt_thr_off_list:
                 _pass = True
                 _ctr += 1
 
-                if _pass:
-                    pass_evts_signal += 1.
+        if _pass:
+            pass_evts_signal += 1.
 
-                if _ctr >= 2:
-                    pass_evts_nj_signal += 1.0
+        if _ctr >= 2:
+            pass_evts_2j_signal += 1.0
 
     #print pass_evts/entries, pass_evts_nj/entries
     pass_evts_l_signal.append(pass_evts_signal/entries_signal)
-    pass_evts_nj_l_signal.append(pass_evts_nj_signal/entries_signal)
+    pass_evts_2j_l_signal.append(pass_evts_2j_signal/entries_signal)
 
 
 
@@ -157,26 +157,30 @@ for pt_thr_off_i in pt_thr_off_list:
 #eff = pass_evts/entries
 #eff2 = pass_evts_nj/entries
 
-for pt_thres_off, eff_1j, eff_2j in zip(pt_thr_off_list,pass_evts_l,pass_evts_nj_l):
+for pt_thres_off, eff_1j, eff_2j in zip(pt_thr_off_list,pass_evts_l,pass_evts_2j_l):
     print "============ offline pt-threshold ==========", pt_thres_off
     print "eff(1jet) rate (kHz): ", eff_1j, round(eff_1j*totalrate,1)
     print "eff(2jet) rate (kHz): ", eff_2j, round(eff_2j*totalrate,1)
 
-for pt_thres_off, eff_1j, eff_2j in zip(pt_thr_off_list,pass_evts_l_signal,pass_evts_nj_l_signal):
+for pt_thres_off, eff_1j, eff_2j in zip(pt_thr_off_list,pass_evts_l_signal,pass_evts_2j_l_signal):
     print "============ offline pt-threshold ==========", pt_thres_off
     print "eff(1jet) rate (kHz): ", eff_1j, round(eff_1j*totalrate,1)
     print "eff(2jet) rate (kHz): ", eff_2j, round(eff_2j*totalrate,1)
 
 
-graph = TGraph(len(eff_bkg_l))
+graph = TGraph(len(rate_bkg_l))
 h_bkg_rate = TH1F("h_bkg_rate","bkg_rate", 20, 10, 110)
+h_s_eff    = TH1F("h_s_eff","s_eff", 20, 10, 110)
+
 ctr = 0
-for s_eff, bkg_rate, pt in zip(pass_evts_l_signal,eff_bkg_l,pt_thr_off_list):
+for s_eff, bkg_rate, pt in zip(pass_evts_l_signal,rate_bkg_l,pt_thr_off_list):
     graph.SetPoint(ctr, s_eff,bkg_rate)
     bin = h_bkg_rate.FindBin(pt)
     h_bkg_rate.SetBinContent(bin,bkg_rate)
+    h_s_eff.SetBinContent(bin,s_eff)
     ctr += 1
 
 my_outFile = TFile("my_eff_file.root", "recreate")
 graph.Write("eff_graph")
 h_bkg_rate.Write("bkg_rate")
+h_s_eff.Write("s_eff")
