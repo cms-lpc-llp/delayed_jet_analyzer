@@ -31,14 +31,14 @@ void llp::Loop(TString outFileName)
 //by  b_branchname->GetEntry(ientry); //read only this branch
 
   TFile* fout = new TFile(outFileName, "RECREATE");
-  TH1F* h_higgs_pt = new TH1F("h_higgs_pt","higgs_pt", 100, 0, 1000);
-  TH1F* h_higgs_pt_met120 = new TH1F("h_higgs_pt_met120","higgs_pt_met120", 100, 0, 1000);
-  TH1F* h_higgs_pt_displaced = new TH1F("h_higgs_pt_displaced","higgs_pt_displaced", 100, 0, 1000);
+  TH1F* h_higgs_pt = new TH1F("h_higgs_pt","higgs_pt", 30, 0, 1000);
+  TH1F* h_higgs_pt_met120 = new TH1F("h_higgs_pt_met120","higgs_pt_met120", 30, 0, 1000);
+  TH1F* h_higgs_pt_displaced = new TH1F("h_higgs_pt_displaced","higgs_pt_displaced", 30, 0, 1000);
 
   //MET
-  TH1F* h_met = new TH1F("h_met","met", 100, 0, 1000);
-  TH1F* h_met_met120 = new TH1F("h_met_met120","met_met120", 100, 0, 1000);
-  TH1F* h_met_displaced = new TH1F("h_met_displaced","met_displaced", 100, 0, 1000);
+  TH1F* h_met = new TH1F("h_met","met", 30, 0, 1000);
+  TH1F* h_met_met120 = new TH1F("h_met_met120","met_met120", 30, 0, 1000);
+  TH1F* h_met_displaced = new TH1F("h_met_displaced","met_displaced", 30, 0, 1000);
 
   //HT
   TH1F* h_ht = new TH1F("h_ht","ht", 100, 0, 1000);
@@ -63,8 +63,12 @@ void llp::Loop(TString outFileName)
   TH1F* h_llp1_decay_r = new TH1F("h_llp1_decay_r","llp1_decay_r", 100, 0, 1e5);
   TH1F* h_llp2_decay_r = new TH1F("h_llp2_decay_r","llp2_decay_r", 100, 0, 1e5);
   //rest frame
-  TH1F* h_llp1_decay_rf = new TH1F("h_llp1_decay_rf","llp1_decay_rf", 100, 0, 1e5);
-  TH1F* h_llp2_decay_rf = new TH1F("h_llp2_decay_rf","llp2_decay_rf", 100, 0, 1e5);
+  TH1F* h_llp1_decay_rf = new TH1F("h_llp1_decay_rf","llp1_decay_rf", 100, 0, 3e3);
+  TH1F* h_llp2_decay_rf = new TH1F("h_llp2_decay_rf","llp2_decay_rf", 100, 0, 3e3);
+
+  //gamma
+  TH1F* h_gamma1 = new TH1F("h_gamma1","gamma1", 100, 0, 100);
+  TH1F* h_gamma2 = new TH1F("h_gamma2","gamma2", 100, 0, 100);
    if (fChain == 0) return;
 
    Long64_t nentries = fChain->GetEntriesFast();
@@ -107,6 +111,10 @@ void llp::Loop(TString outFileName)
         break;
       }
 
+      float gamma1 = 1./sqrt(1-pow(gLLP_beta[0],2.0));
+      float gamma2 = 1./sqrt(1-pow(gLLP_beta[1],2.0));
+      h_gamma1->Fill(gamma1);
+      h_gamma2->Fill(gamma2);
       //llp1
       float llp1_decay = sqrt(pow(gLLP_decay_vertex_x[0],2.0)
       +pow(gLLP_decay_vertex_y[0],2.0)+pow(gLLP_decay_vertex_z[0],2.0));
@@ -114,7 +122,7 @@ void llp::Loop(TString outFileName)
       +pow(gLLP_decay_vertex_y[0],2.0));
       float llp1_decay_z = fabs(gLLP_decay_vertex_z[0]);
       float llp1_decay_rf = sqrt(pow(gLLP_decay_vertex_x[0],2.0)
-      +pow(gLLP_decay_vertex_y[0],2.0)+pow(gLLP_decay_vertex_z[0],2.0))/gLLP_beta[0];
+      +pow(gLLP_decay_vertex_y[0],2.0)+pow(gLLP_decay_vertex_z[0],2.0))/(gLLP_beta[0]*gamma1);
 
       h_llp1_decay->Fill(llp1_decay);
       h_llp1_decay_r->Fill(llp1_decay_r);
@@ -127,7 +135,7 @@ void llp::Loop(TString outFileName)
       +pow(gLLP_decay_vertex_y[1],2.0));
       float llp2_decay_z = fabs(gLLP_decay_vertex_z[1]);
       float llp2_decay_rf = sqrt(pow(gLLP_decay_vertex_x[1],2.0)
-      +pow(gLLP_decay_vertex_y[1],2.0)+pow(gLLP_decay_vertex_z[1],2.0))/gLLP_beta[1];
+      +pow(gLLP_decay_vertex_y[1],2.0)+pow(gLLP_decay_vertex_z[1],2.0))/(gLLP_beta[1]*gamma2);
 
       h_llp2_decay->Fill(llp2_decay);
       h_llp2_decay_r->Fill(llp2_decay_r);
@@ -160,5 +168,7 @@ void llp::Loop(TString outFileName)
    h_llp2_decay_r->Write();
    h_llp2_decay_z->Write();
    h_llp2_decay_rf->Write();
+   h_gamma1->Write();
+   h_gamma2->Write();
    fout->Close();
 }
