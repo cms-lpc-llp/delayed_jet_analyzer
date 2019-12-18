@@ -236,9 +236,10 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
         
     pad1.Draw()
     pad1.cd()
-
+    
+    leg = rt.TLegend(0.7, 0.7, 0.9, 0.9)
     #leg = rt.TLegend(0.2, 0.7, 0.5, 0.9)
-    leg = rt.TLegend(0.6, 0.7, 0.9, 0.9)
+    #leg = rt.TLegend(0.7, 0.2, 0.9, 0.4)
     leg.SetBorderSize(0)
     #leg.SetTextSize(0.022)
     leg.SetFillStyle(0)
@@ -250,7 +251,7 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
             h.GetXaxis().SetTitle("")
             h.GetYaxis().SetRangeUser(0, 1.05*max(map(lambda x: x.GetMaximum(), h_list)))
             if logy:
-                h.GetYaxis().SetRangeUser(0.1, 3*max(map(lambda x: x.GetMaximum(), h_list)))
+                h.GetYaxis().SetRangeUser(1, 150*max(map(lambda x: x.GetMaximum(), h_list)))
             h.GetYaxis().SetTitleOffset(1.0)
             h.GetYaxis().SetTitleSize(0.06)
             h.GetYaxis().SetLabelSize(0.05)
