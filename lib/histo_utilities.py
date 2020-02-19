@@ -215,7 +215,7 @@ def rootTH2_to_np(h, cut = None, Norm = False):
             pos[iy, ix] = [x,y]
     return arr, pos
 
-def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = None, ratio_bounds = [0.1, 4], logy = False,draw_opt = 'E1'):
+def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = None, ratio_bounds = [0.1, 4], logy = False,draw_opt = ['hist','E1']):
     h_list = []
     if in_tags == None:
         tag = []
@@ -257,9 +257,9 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
             h.GetYaxis().SetLabelSize(0.05)
             h.SetTitle(title)
             #h.SetStats(1)
-            h.DrawCopy(draw_opt)
+            h.DrawCopy(draw_opt[i])
         else:
-            h.DrawCopy(draw_opt+"same")
+            h.DrawCopy(draw_opt[i]+"same")
 
         leg.AddEntry(h, tag[i], "lep")
 
@@ -292,11 +292,11 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
             h.SetYTitle('Ratio with {}'.format(tag[0]))
             h.SetTitle("")
     #        h.SetStats(0)
-            h.DrawCopy(draw_opt)
+            h.DrawCopy(draw_opt[i])
 
         else:
             h.Divide(h_list[0])
-            h.DrawCopy("same"+draw_opt)
+            h.DrawCopy("same"+draw_opt[i])
 
         ln = rt.TLine(h.GetXaxis().GetXmin(), 1, h.GetXaxis().GetXmax(), 1)
         ln.SetLineWidth(3)
