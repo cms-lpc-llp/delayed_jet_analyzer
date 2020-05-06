@@ -249,9 +249,9 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
         if i == 0:
             h.GetXaxis().SetLabelSize(0)
             h.GetXaxis().SetTitle("")
-            h.GetYaxis().SetRangeUser(0, 1.05*max(map(lambda x: x.GetMaximum(), h_list)))
+            h.GetYaxis().SetRangeUser(0, 1.6*max(map(lambda x: x.GetMaximum(), h_list)))
             if logy:
-                h.GetYaxis().SetRangeUser(1, 150*max(map(lambda x: x.GetMaximum(), h_list)))
+                h.GetYaxis().SetRangeUser(0.000000001, 150*max(map(lambda x: x.GetMaximum(), h_list)))
             h.GetYaxis().SetTitleOffset(1.0)
             h.GetYaxis().SetTitleSize(0.06)
             h.GetYaxis().SetLabelSize(0.05)
