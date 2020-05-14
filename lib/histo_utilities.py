@@ -71,11 +71,6 @@ def create_TH1D(x, name='h', title=None, binning=[None, None, None], weights=Non
         h = h2clone.Clone(name)
         h.SetTitle(title)
         h.Reset()
-    #for i in range(len(x)):
-    #    if weights is None:
-#	    h.Fill(x[i])
-#	else:
- #           h.Fill(x[i],weights[i])
 
     rtnp.fill_hist(h, x, weights=weights)
     h.SetXTitle(axis_title[0])
@@ -256,8 +251,15 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
             h.GetYaxis().SetTitleSize(0.06)
             h.GetYaxis().SetLabelSize(0.05)
             h.SetTitle(title)
+            h.DrawCopy('hist')
+            h.SetFillColor(h_list_in[0].GetLineColor())
+            h.SetFillStyle(3002)
             #h.SetStats(1)
-            h.DrawCopy(draw_opt[i])
+            h.SetLineColor(h_list_in[0].GetLineColor())
+            h.SetLineWidth(2)
+            h.SetMarkerColor(h_list_in[0].GetLineColor())
+            h.SetMarkerSize(2)
+            h.DrawCopy('same'+draw_opt[i])
         else:
             h.DrawCopy(draw_opt[i]+"same")
 
@@ -274,35 +276,62 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
     pad2.Draw()
     pad2.cd()
 
+    band = h_list_in[0].Clone('h_band')
+    for j in range(band.GetXaxis().GetNbins()):
+        band.SetBinContent(j+1, 1.0)
+        if h_list[0].GetBinContent(j+1) == 0:
+            band.SetBinError(j+1, 0.0)
+        else:
+            band.SetBinError(j+1, h_list_in[0].GetBinError(j+1)/h_list_in[0].GetBinContent(j+1))
+            #print(j, h_list_in[0].GetBinError(j+1)/h_list_in[0].GetBinContent(j+1))
+    band.SetFillColor(h_list_in[0].GetLineColor())
+    band.SetFillStyle(3002)
+    band.SetLineColor(h_list_in[0].GetLineColor())
+    band.GetYaxis().SetTitleOffset(0.6)
+    band.GetYaxis().SetRangeUser(ratio_bounds[0], ratio_bounds[1])
+    band.GetYaxis().SetTitleSize(0.12)
+    band.GetYaxis().SetLabelSize(0.12)
+    band.GetYaxis().SetNdivisions(506)
+    band.GetXaxis().SetTitleOffset(0.95)
+    band.GetXaxis().SetTitleSize(0.12)
+    band.GetXaxis().SetLabelSize(0.12)
+    band.GetXaxis().SetTickSize(0.07)
+    band.SetYTitle('Ratio with {}'.format(tag[0]))
+    band.SetTitle("")
+    band.DrawCopy('E2')
+
+    ln = rt.TLine(h.GetXaxis().GetXmin(), 1, h.GetXaxis().GetXmax(), 1)
+    ln.SetLineWidth(3)
+    ln.SetLineColor(h_list_in[0].GetLineColor())
+    ln.DrawLine(h.GetXaxis().GetXmin(), 1, h.GetXaxis().GetXmax(), 1)
     for i, h in enumerate(h_list):
         if i == 0:
             continue
         elif i == 1: 
             if fit:h.GetFunction("expo").Delete()
             h.Divide(h_list[0])
-            h.GetYaxis().SetTitleOffset(0.6)
-            h.GetYaxis().SetRangeUser(ratio_bounds[0], ratio_bounds[1])
-            h.GetYaxis().SetTitleSize(0.12)
-            h.GetYaxis().SetLabelSize(0.12)
-            h.GetYaxis().SetNdivisions(506)
-            h.GetXaxis().SetTitleOffset(0.95)
-            h.GetXaxis().SetTitleSize(0.12)
-            h.GetXaxis().SetLabelSize(0.12)
-            h.GetXaxis().SetTickSize(0.07)
-            h.SetYTitle('Ratio with {}'.format(tag[0]))
-            h.SetTitle("")
-    #        h.SetStats(0)
-            h.DrawCopy(draw_opt[i])
+            #h.GetYaxis().SetTitleOffset(0.6)
+            #h.GetYaxis().SetRangeUser(ratio_bounds[0], ratio_bounds[1])
+            #h.GetYaxis().SetTitleSize(0.12)
+            #h.GetYaxis().SetLabelSize(0.12)
+            #h.GetYaxis().SetNdivisions(506)
+            #h.GetXaxis().SetTitleOffset(0.95)
+            #h.GetXaxis().SetTitleSize(0.12)
+            #h.GetXaxis().SetLabelSize(0.12)
+            #h.GetXaxis().SetTickSize(0.07)
+            #h.SetYTitle('Ratio with {}'.format(tag[0]))
+            #h.SetTitle("")
+            #set relative error of ratio to be the relative error of data
+            for j in range(h.GetXaxis().GetNbins()):
+                if h_list[1].GetBinContent(j+1) == 0:
+                    h.SetBinError(j+1, 0.0)
+                else:
+                    h.SetBinError(j+1, h_list_in[1].GetBinError(j+1)/h_list_in[1].GetBinContent(j+1)*h.GetBinContent(j+1)) 
+            h.DrawCopy('same'+draw_opt[i])
 
         else:
             h.Divide(h_list[0])
             h.DrawCopy("same"+draw_opt[i])
-
-        ln = rt.TLine(h.GetXaxis().GetXmin(), 1, h.GetXaxis().GetXmax(), 1)
-        ln.SetLineWidth(3)
-        ln.SetLineColor(h_list_in[0].GetLineColor())
-        ln.DrawLine(h.GetXaxis().GetXmin(), 1, h.GetXaxis().GetXmax(), 1)
-
 
     pad2.Update()
 
