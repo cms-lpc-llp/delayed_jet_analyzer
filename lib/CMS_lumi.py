@@ -13,17 +13,17 @@ writeExtraText = True
 extraText   = "Preliminary"
 extraTextFont = 52
 
-lumiTextSize     = 0.6
+lumiTextSize     = 0.8
 lumiTextOffset   = 0.2
 
-cmsTextSize      = 0.75
+cmsTextSize      = 0.90
 cmsTextOffset    = 0.1
 
 relPosX    = 0.045
 relPosY    = 0.035
-relExtraDY = 1.2
+relExtraDY = 1.3
 
-extraOverCmsTextSize  = 0.76
+extraOverCmsTextSize  = 0.95
 
 lumi_13TeV = "137 fb^{-1}"
 lumi_8TeV  = "19.7 fb^{-1}"
@@ -145,7 +145,12 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
                 latex.SetTextFont(extraTextFont)
                 latex.SetTextAlign(align_)
                 latex.SetTextSize(extraTextSize*t)
-                latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t, extraText)
+                if extraText == 'Preliminary':latex.DrawLatex(posX_+0.045, posY_- relExtraDY*cmsTextSize*t, extraText)
+                elif extraText == 'Simulation Preliminary':latex.DrawLatex(posX_+0.105, posY_- relExtraDY*cmsTextSize*t, extraText)
+                elif extraText == 'Simulation Supplementary':latex.DrawLatex(posX_+0.13, posY_- relExtraDY*cmsTextSize*t, extraText)
+                else:latex.DrawLatex(posX_+0.075, posY_- relExtraDY*cmsTextSize*t, extraText)
+                #latex.DrawLatex(posX_+0.019, posY_- relExtraDY*cmsTextSize*t, extraText)
+                print("here",posX_)
     elif( writeExtraText ):
         if( iPosX==0):
             posX_ =   l +  relPosX*(1-l-r)

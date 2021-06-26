@@ -148,5 +148,8 @@ def setTDRStyle():
 
   tdrStyle.SetHatchesLineWidth(5)
   tdrStyle.SetHatchesSpacing(0.05)
+  rt.gROOT.SetStyle("tdrStyle")
+  rt.gROOT.ForceStyle()
 
   tdrStyle.cd()
+  return tdrStyle
