@@ -365,7 +365,7 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
     pad1.cd()
 
     leg = rt.TLegend(0.5, 0.65, 0.9, 0.92)
-    #leg = rt.TLegend(0.7, 0.65, 0.9, 0.92)
+    leg = rt.TLegend(0.7, 0.65, 0.9, 0.92)
 
     #leg = rt.TLegend(0.2, 0.7, 0.5, 0.9)
     # leg = rt.TLegend(0.7, 0.2, 0.9, 0.4)
