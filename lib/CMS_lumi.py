@@ -153,7 +153,7 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
                 print("here",posX_)
     elif( writeExtraText ):
         if( iPosX==0):
-            posX_ =   l +  relPosX*(1-l-r)
+            posX_ =   l +  relPosX*(1-l-r)+0.005 
             posY_ =   1-t+lumiTextOffset*t
 
         latex.SetTextFont(extraTextFont)
