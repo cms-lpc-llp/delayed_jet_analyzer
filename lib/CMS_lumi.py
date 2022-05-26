@@ -145,12 +145,14 @@ def CMS_lumi(pad,  iPeriod,  iPosX ):
                 latex.SetTextFont(extraTextFont)
                 latex.SetTextAlign(align_)
                 latex.SetTextSize(extraTextSize*t)
-                if extraText == 'Preliminary':latex.DrawLatex(posX_+0.045, posY_- relExtraDY*cmsTextSize*t, extraText)
-                elif extraText == 'Simulation Preliminary':latex.DrawLatex(posX_+0.105, posY_- relExtraDY*cmsTextSize*t, extraText)
-                elif extraText == 'Simulation Supplementary':latex.DrawLatex(posX_+0.13, posY_- relExtraDY*cmsTextSize*t, extraText)
-                else:latex.DrawLatex(posX_+0.075, posY_- relExtraDY*cmsTextSize*t, extraText)
-                #latex.DrawLatex(posX_+0.019, posY_- relExtraDY*cmsTextSize*t, extraText)
-                print("here",posX_)
+                if iPosX%10==0:
+                   latex.DrawLatex(posX_+0.1, posY_-0.005, extraText)
+                else:
+                    if extraText == 'Preliminary':latex.DrawLatex(posX_+0.045, posY_- relExtraDY*cmsTextSize*t, extraText)
+                    elif extraText == 'Simulation Preliminary':latex.DrawLatex(posX_+0.105, posY_- relExtraDY*cmsTextSize*t, extraText)
+                    elif extraText == 'Simulation Supplementary':latex.DrawLatex(posX_+0.175, posY_- relExtraDY*cmsTextSize*t, extraText)
+                    else:latex.DrawLatex(posX_+0.02, posY_- relExtraDY*cmsTextSize*t, extraText)
+                    #latex.DrawLatex(posX_+0.019, posY_- relExtraDY*cmsTextSize*t, extraText)
     elif( writeExtraText ):
         if( iPosX==0):
             posX_ =   l +  relPosX*(1-l-r)+0.005 
