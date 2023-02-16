@@ -6,6 +6,19 @@ from array import array
 
 std_color_list = [1, 2, 4, 8, 6, 28, 43, 7, 25, 36, 30, 40, 42, 49, 46, 38, 32, 800, 600, 900, 870, 840]
 
+
+
+def find_intersect(graph1,graph2):
+    
+    mass = list(np.arange(0,2500))
+    diff = []
+    for m in mass:
+        diff.append(graph1.Eval(m)-graph2.Eval(m))
+    diff = np.sign(np.array(diff))
+    for i in range(len(diff)):
+        if not diff[i] == diff[i+1]:
+            return mass[i]
+
 def quantile(a, p, weight=None, f=None):
     if a.shape[0] == 0:
         return None, None
@@ -262,8 +275,8 @@ def make_ratio_pEff(h_list_in, title = "", label = "", fit = False, in_tags = No
     h_list[0].GetPaintedGraph().GetHistogram().GetXaxis().SetLabelSize(0)
     h_list[0].GetPaintedGraph().GetHistogram().GetXaxis().SetTitle("")
     h_list[0].GetPaintedGraph().GetHistogram().GetXaxis().SetLimits(h_list_in[0].GetCopyTotalHisto().GetXaxis().GetXmin(),h_list_in[0].GetCopyTotalHisto().GetXaxis().GetXmax())
-    #h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetRangeUser(0, 1.5*max(map(lambda x: x.GetPaintedGraph().GetHistogram().GetMaximum(), h_list)))
-    h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetRangeUser(0, 1.5)
+    h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetRangeUser(0, 1.05*max(map(lambda x: x.GetPaintedGraph().GetHistogram().GetMaximum(), h_list)))
+    h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetRangeUser(0, 1.6)
     if logy:
         h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetRangeUser(10e-7, 150*max(map(lambda x: x.GetPaintedGraph().GetHistogram().GetMaximum(), h_list)))
     h_list[0].GetPaintedGraph().GetHistogram().GetYaxis().SetTitleOffset(1.0)
@@ -378,9 +391,9 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
         if i == 0:
             h.GetXaxis().SetLabelSize(0)
             h.GetXaxis().SetTitle("")
-            h.GetYaxis().SetRangeUser(0, 2.2*max(map(lambda x: x.GetMaximum(), h_list)))
+            h.GetYaxis().SetRangeUser(0, 1.5*max(map(lambda x: x.GetMaximum(), h_list)))
             if logy:
-                h.GetYaxis().SetRangeUser(10e-5, 2.5*max(map(lambda x: x.GetMaximum(), h_list)))
+                h.GetYaxis().SetRangeUser(10e-2, 2.5*max(map(lambda x: x.GetMaximum(), h_list)))
             h.GetYaxis().SetTitleOffset(1.0)
             h.GetYaxis().SetTitleSize(0.06)
             h.GetYaxis().SetLabelSize(0.05)
@@ -405,8 +418,8 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
                 if logy:l.DrawLatex((h.GetXaxis().GetXmax()-h.GetXaxis().GetXmin())*0.1+h.GetXaxis().GetXmin() , h.GetMaximum()/10, text)
                 else:l.DrawLatex((h.GetXaxis().GetXmax()-h.GetXaxis().GetXmin())*0.1+h.GetXaxis().GetXmin() , h.GetMaximum()*0.8, text)
         else:
-            h.DrawCopy(draw_opt[i]+"same")
-            # h.DrawCopy("E1 same")
+            #h.DrawCopy(draw_opt[i]+"same")
+            h.Draw("E1 same")
 
         leg.AddEntry(h, tag[i], "lep")
     leg.Draw("same")
@@ -472,7 +485,7 @@ def make_ratio_plot(h_list_in, title = "", label = "", fit = False, in_tags = No
                     h.SetBinError(j+1, 0.0)
                 else:
                     h.SetBinError(j+1, h_list_in[i].GetBinError(j+1)/h_list_in[i].GetBinContent(j+1)*h.GetBinContent(j+1))
-            h.DrawCopy('same'+draw_opt[i])
+            h.Draw('same'+draw_opt[i])
 
     pad2.Update()
 
